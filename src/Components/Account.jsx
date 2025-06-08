@@ -224,200 +224,200 @@ const Account = () => {
   };
 
   return (
-    <div className="account_Container flex flex-col justify-center items-center gap-10 pt-10">
-      <span className='text-4xl'>{isSignUp ? 'Create Account' : 'Welcome'}</span>
-      
-      {error && <div className="text-red-500">{error}</div>}
-      
-      {isSignUp ? (
-        // Signup Form with OTP
-        <form className="form_Container w-1/2 p-4 flex flex-col justify-center items-center gap-4" onSubmit={handleSignupSubmit}>
-          <input 
-            type="text" 
-            name="name"
-            className='border-2 rounded-4xl border-gray-300 w-1/2 p-2 mb-2'
-            placeholder='Full Name'
-            value={signupData.name}
-            onChange={handleSignupChange}
-            required
-          />
-          <input 
-            type="email" 
-            className='border-2 rounded-4xl border-gray-300 w-1/2 p-2 mb-2'
-            placeholder='Email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            disabled={otpSent}
-          />
-          <div className="otp w-1/2 gap-2 flex mb-2">
-            <input 
-              type="number" 
-              className='border-2 rounded-4xl border-gray-300 w-1/2 p-2' 
-              placeholder='Enter OTP' 
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              disabled={!otpSent || otpVerified}
-            />
-            {otpSent ? (
-              otpVerified ? (
-                <button 
-                  type="button"
-                  className='bg-green-500 border-2 border-green-500 text-white w-1/2 p-2 rounded-4xl'
-                  disabled
-                >
-                  Verified
-                </button>
-              ) : (
-                <button 
-                  type="button"
-                  onClick={handleVerifyOtp}
-                  className='bg-black border-2 border-black text-white w-1/2 p-2 rounded-4xl'
-                  disabled={loading}
-                >
-                  Verify OTP
-                </button>
-              )
-            ) : (
-              <button 
-                type="button"
-                onClick={handleSendOtp}
-                className='bg-black border-2 border-black text-white w-1/2 p-2 rounded-4xl'
-                disabled={loading || !email}
-              >
-                {loading ? 'Sending...' : 'Send OTP'}
-              </button>
-            )}
-          </div>
-          {otpTimer > 0 && !otpVerified && (
-            <div className="text-sm text-gray-500">
-              OTP expires in: {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, '0')}
-            </div>
-          )}
-          <input 
-            type="password" 
-            name="password"
-            className='border-2 rounded-4xl border-gray-300 w-1/2 p-2 mb-2'
-            placeholder='Password (min 6 characters)'
-            value={signupData.password}
-            onChange={handleSignupChange}
-            required
-            minLength="6"
-          />
-          <input 
-            type="password" 
-            name="confirmPassword"
-            className='border-2 rounded-4xl border-gray-300 w-1/2 p-2 mb-2'
-            placeholder='Confirm Password'
-            value={signupData.confirmPassword}
-            onChange={handleSignupChange}
-            required
-            minLength="6"
-          />
-          <button 
-            type="submit"
-            className='bg-black border-2 border-black text-white w-1/2 p-2 rounded-4xl mt-2'
-            disabled={loading || !otpVerified}
-          >
-            {loading ? 'Creating Account...' : 'Complete Sign Up'}
-          </button>
-          <span>Already have an account? 
+<div className="account_Container flex flex-col justify-center items-center gap-6 md:gap-10 pt-6 md:pt-10 px-4">
+  <span className='text-2xl md:text-4xl'>{isSignUp ? 'Create Account' : 'Welcome'}</span>
+  
+  {error && <div className="text-red-500 text-sm md:text-base text-center">{error}</div>}
+  
+  {isSignUp ? (
+    // Signup Form with OTP
+    <form className="form_Container w-full md:w-3/4 lg:w-1/2 p-4 flex flex-col justify-center items-center gap-3 md:gap-4" onSubmit={handleSignupSubmit}>
+      <input 
+        type="text" 
+        name="name"
+        className='border-2 rounded-4xl border-gray-300 w-full md:w-3/4 lg:w-1/2 p-2 mb-1 md:mb-2 text-sm md:text-base'
+        placeholder='Full Name'
+        value={signupData.name}
+        onChange={handleSignupChange}
+        required
+      />
+      <input 
+        type="email" 
+        className='border-2 rounded-4xl border-gray-300 w-full md:w-3/4 lg:w-1/2 p-2 mb-1 md:mb-2 text-sm md:text-base'
+        placeholder='Email'
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        disabled={otpSent}
+      />
+      <div className="otp w-full md:w-3/4 lg:w-1/2 gap-2 flex mb-1 md:mb-2 flex-col sm:flex-row">
+        <input 
+          type="number" 
+          className='border-2 rounded-4xl border-gray-300 w-full sm:w-1/2 p-2 text-sm md:text-base' 
+          placeholder='Enter OTP' 
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          disabled={!otpSent || otpVerified}
+        />
+        {otpSent ? (
+          otpVerified ? (
             <button 
               type="button"
-              onClick={() => {
-                setIsSignUp(false);
-                resetForm();
-              }} 
-              className='text-blue-600 ml-1'
+              className='bg-green-500 border-2 border-green-500 text-white w-full sm:w-1/2 p-2 rounded-4xl text-sm md:text-base'
+              disabled
             >
-              Login
+              Verified
             </button>
-          </span>
-        </form>
-      ) : (
-        // Login Form with OTP
-        <div className="form_Container w-1/2 p-4 flex flex-col justify-center items-center gap-4">
-          <input 
-            type="email" 
-            className='border-2 rounded-4xl border-gray-300 w-1/2 p-2' 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder='Enter Email'
-            disabled={otpSent}
-          />
-          <div className="otp w-1/2 gap-2 flex">
-            <input 
-              type="number" 
-              className='border-2 rounded-4xl border-gray-300 w-1/2 p-2' 
-              placeholder='Enter OTP' 
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              disabled={!otpSent || otpVerified}
-            />
-            {otpSent ? (
-              otpVerified ? (
-                <button 
-                  className='bg-green-500 border-2 border-green-500 text-white w-1/2 p-2 rounded-4xl'
-                  disabled
-                >
-                  Verified
-                </button>
-              ) : (
-                <button 
-                  onClick={handleVerifyOtp}
-                  className='bg-black border-2 border-black text-white w-1/2 p-2 rounded-4xl'
-                  disabled={loading}
-                >
-                  Verify OTP
-                </button>
-              )
-            ) : (
-              <button 
-                onClick={handleSendOtp}
-                className='bg-black border-2 border-black text-white w-1/2 p-2 rounded-4xl'
-                disabled={loading || !email}
-              >
-                {loading ? 'Sending...' : 'Send OTP'}
-              </button>
-            )}
-          </div>
-          {otpTimer > 0 && !otpVerified && (
-            <div className="text-sm text-gray-500">
-              OTP expires in: {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, '0')}
-            </div>
-          )}
-          {otpVerified && (
-            <input 
-              type="password" 
-              name="password"
-              className='border-2 rounded-4xl border-gray-300 w-1/2 p-2' 
-              placeholder='Enter Password'
-              value={loginData.password}
-              onChange={handleLoginChange}
-              required
-            />
-          )}
-          <button 
-            onClick={handleLogin}
-            className='bg-black border-2 border-black text-white w-1/2 p-2 rounded-4xl'
-            disabled={loading || !otpVerified}
-          >
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-          <span>Don't have an account? 
+          ) : (
             <button 
-              onClick={() => {
-                setIsSignUp(true);
-                resetForm();
-              }} 
-              className='text-blue-600 ml-1'
+              type="button"
+              onClick={handleVerifyOtp}
+              className='bg-black border-2 border-black text-white w-full sm:w-1/2 p-2 rounded-4xl text-sm md:text-base'
+              disabled={loading}
             >
-              Sign Up
+              Verify OTP
             </button>
-          </span>
+          )
+        ) : (
+          <button 
+            type="button"
+            onClick={handleSendOtp}
+            className='bg-black border-2 border-black text-white w-full sm:w-1/2 p-2 rounded-4xl text-sm md:text-base'
+            disabled={loading || !email}
+          >
+            {loading ? 'Sending...' : 'Send OTP'}
+          </button>
+        )}
+      </div>
+      {otpTimer > 0 && !otpVerified && (
+        <div className="text-xs md:text-sm text-gray-500">
+          OTP expires in: {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, '0')}
         </div>
       )}
+      <input 
+        type="password" 
+        name="password"
+        className='border-2 rounded-4xl border-gray-300 w-full md:w-3/4 lg:w-1/2 p-2 mb-1 md:mb-2 text-sm md:text-base'
+        placeholder='Password (min 6 characters)'
+        value={signupData.password}
+        onChange={handleSignupChange}
+        required
+        minLength="6"
+      />
+      <input 
+        type="password" 
+        name="confirmPassword"
+        className='border-2 rounded-4xl border-gray-300 w-full md:w-3/4 lg:w-1/2 p-2 mb-1 md:mb-2 text-sm md:text-base'
+        placeholder='Confirm Password'
+        value={signupData.confirmPassword}
+        onChange={handleSignupChange}
+        required
+        minLength="6"
+      />
+      <button 
+        type="submit"
+        className='bg-black border-2 border-black text-white w-full md:w-3/4 lg:w-1/2 p-2 rounded-4xl mt-1 md:mt-2 text-sm md:text-base'
+        disabled={loading || !otpVerified}
+      >
+        {loading ? 'Creating Account...' : 'Complete Sign Up'}
+      </button>
+      <span className="text-sm md:text-base">Already have an account? 
+        <button 
+          type="button"
+          onClick={() => {
+            setIsSignUp(false);
+            resetForm();
+          }} 
+          className='text-blue-600 ml-1'
+        >
+          Login
+        </button>
+      </span>
+    </form>
+  ) : (
+    // Login Form with OTP
+    <div className="form_Container w-full md:w-3/4 lg:w-1/2 p-4 flex flex-col justify-center items-center gap-3 md:gap-4">
+      <input 
+        type="email" 
+        className='border-2 rounded-4xl border-gray-300 w-full md:w-3/4 lg:w-1/2 p-2 text-sm md:text-base' 
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder='Enter Email'
+        disabled={otpSent}
+      />
+      <div className="otp w-full md:w-3/4 lg:w-1/2 gap-2 flex flex-col sm:flex-row">
+        <input 
+          type="number" 
+          className='border-2 rounded-4xl border-gray-300 w-full sm:w-1/2 p-2 text-sm md:text-base' 
+          placeholder='Enter OTP' 
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          disabled={!otpSent || otpVerified}
+        />
+        {otpSent ? (
+          otpVerified ? (
+            <button 
+              className='bg-green-500 border-2 border-green-500 text-white w-full sm:w-1/2 p-2 rounded-4xl text-sm md:text-base'
+              disabled
+            >
+              Verified
+            </button>
+          ) : (
+            <button 
+              onClick={handleVerifyOtp}
+              className='bg-black border-2 border-black text-white w-full sm:w-1/2 p-2 rounded-4xl text-sm md:text-base'
+              disabled={loading}
+            >
+              Verify OTP
+            </button>
+          )
+        ) : (
+          <button 
+            onClick={handleSendOtp}
+            className='bg-black border-2 border-black text-white w-full sm:w-1/2 p-2 rounded-4xl text-sm md:text-base'
+            disabled={loading || !email}
+          >
+            {loading ? 'Sending...' : 'Send OTP'}
+          </button>
+        )}
+      </div>
+      {otpTimer > 0 && !otpVerified && (
+        <div className="text-xs md:text-sm text-gray-500">
+          OTP expires in: {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, '0')}
+        </div>
+      )}
+      {otpVerified && (
+        <input 
+          type="password" 
+          name="password"
+          className='border-2 rounded-4xl border-gray-300 w-full md:w-3/4 lg:w-1/2 p-2 text-sm md:text-base' 
+          placeholder='Enter Password'
+          value={loginData.password}
+          onChange={handleLoginChange}
+          required
+        />
+      )}
+      <button 
+        onClick={handleLogin}
+        className='bg-black border-2 border-black text-white w-full md:w-3/4 lg:w-1/2 p-2 rounded-4xl text-sm md:text-base'
+        disabled={loading || !otpVerified}
+      >
+        {loading ? 'Logging in...' : 'Login'}
+      </button>
+      <span className="text-sm md:text-base">Don't have an account? 
+        <button 
+          onClick={() => {
+            setIsSignUp(true);
+            resetForm();
+          }} 
+          className='text-blue-600 ml-1'
+        >
+          Sign Up
+        </button>
+      </span>
     </div>
+  )}
+</div>
   )
 }
 
