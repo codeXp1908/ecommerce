@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+.account_Container span{
+    font-family: "Open Sans", sans-serif;
+    font-weight: 500;
+}
